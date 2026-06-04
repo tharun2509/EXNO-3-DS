@@ -31,8 +31,96 @@ We use this categorical data encoding technique when the features are nominal(do
 • Yeojohnson method
 
 # CODING AND OUTPUT:
-       # INCLUDE YOUR CODING AND OUTPUT SCREENSHOTS HERE
+```
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import (
+    OrdinalEncoder,
+    LabelEncoder,
+    OneHotEncoder,
+    PowerTransformer
+)
+import category_encoders as ce
+
+# STEP 1: Read dataset
+df = pd.read_csv("C:\\Users\\acer\\Downloads\\Data_to_Transform.csv")
+
+# STEP 2: Data Cleaning
+df = df.drop_duplicates()
+df = df.dropna()
+
+print("Original Dataset")
+print(df.head())
+
+```
+<img width="487" height="191" alt="image" src="https://github.com/user-attachments/assets/76a63911-81a2-40a7-9b91-a2ae4698ec90" />
+```
+
+
+# STEP 3: Feature Encoding (Example categorical column)
+
+df["Category"] = ["Low","Medium","High"]*(len(df)//3)+["Low"]*(len(df)%3)
+
+# Ordinal Encoding
+ord_enc = OrdinalEncoder()
+df["Ordinal_Encoded"] = ord_enc.fit_transform(df[["Category"]])
+
+# Label Encoding
+lab = LabelEncoder()
+df["Label_Encoded"] = lab.fit_transform(df["Category"])
+
+# Binary Encoding
+binary = ce.BinaryEncoder(cols=["Category"])
+binary_df = binary.fit_transform(df[["Category"]])
+
+# One Hot Encoding
+onehot = pd.get_dummies(df["Category"])
+
+# STEP 4: Feature Transformation
+
+# Log Transformation
+df["Log"] = np.log(df["Moderate Positive Skew"])
+
+# Reciprocal Transformation
+df["Reciprocal"] = 1/(df["Moderate Positive Skew"])
+
+# Square Root Transformation
+df["Sqrt"] = np.sqrt(df["Moderate Positive Skew"])
+
+# Square Transformation
+df["Square"] = df["Moderate Positive Skew"]**2
+
+# Box-Cox Transformation
+boxcox = PowerTransformer(method="box-cox")
+df["BoxCox"] = boxcox.fit_transform(
+    df[["Moderate Positive Skew"]]
+)
+
+# Yeo-Johnson Transformation
+yeo = PowerTransformer(method="yeo-johnson")
+df["YeoJohnson"] = yeo.fit_transform(
+    df[["Moderate Positive Skew"]]
+)
+
+# Combine encoded data
+final_df = pd.concat(
+    [df, binary_df, onehot],
+    axis=1
+)
+
+# STEP 5: Save file
+final_df.to_csv(
+    "Transformed_Output.csv",
+    index=False
+)
+
+print("\nTransformation Completed")
+print("Saved as Transformed_Output.csv")
+print(final_df.head())
+```
+<img width="721" height="526" alt="image" src="https://github.com/user-attachments/assets/bfaa1d39-a8b0-4dea-8c5b-8302bb5bf960" />
+
 # RESULT:
-       # INCLUDE YOUR RESULT HERE
+The code was executed and verified succesfully.
 
        
