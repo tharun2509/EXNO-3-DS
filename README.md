@@ -118,6 +118,7 @@ print("\nTransformation Completed")
 print("Saved as Transformed_Output.csv")
 print(final_df.head())
 ```
+
 <img width="721" height="526" alt="image" src="https://github.com/user-attachments/assets/bfaa1d39-a8b0-4dea-8c5b-8302bb5bf960" />
 
 # RESULT:
